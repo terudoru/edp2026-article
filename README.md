@@ -11,16 +11,6 @@
 
 このリポジトリには、記事の作成と補足資料の閲覧に必要なファイルだけを収録しています。自宅環境のバックアップ、運用記録、自動設定ツール、未使用画像は含めていません。
 
-## ビルド
-
-macOSのTeX Live環境で、次のコマンドを実行します。
-
-```bash
-cd source
-latexmk main.tex
-```
-
-生成物は `source/build/main.pdf` です。原稿ではMS明朝、MSゴシック、Times New Roman、Arial、Courier Newを使用しています。
 
 ## ライセンス
 
