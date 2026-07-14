@@ -1,0 +1,30 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{codexcode}[2026/07/04 Code and shell listings with line numbers]
+
+\RequirePackage{xcolor}
+\RequirePackage{listings}
+
+\lstdefinestyle{codexcode}{
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=false,
+  % 日本語コメントの擬似イタリックを避けて灰色の立体にする。
+  commentstyle=\color{gray},
+  % 出力例やTOMLがbashキーワード扱いで太字化されるのを防ぐ。
+  keywordstyle={},
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  tabsize=2
+}
+
+\lstset{style=codexcode}
+
+\lstnewenvironment{codeblock}{\lstset{style=codexcode}}{}
+\lstnewenvironment{commands}{\lstset{style=codexcode,language=bash}}{}
+\lstnewenvironment{shellscript}{\lstset{style=codexcode,language=bash}}{}

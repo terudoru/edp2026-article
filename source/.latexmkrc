@@ -1,0 +1,10 @@
+$pdf_mode = 4;
+$ENV{'TEXMFVAR'} = 'build/texmf-var';
+$ENV{'TEXMFCACHE'} = 'build/texmf-var';
+$ENV{'TEXMFCONFIG'} = 'build/texmf-config';
+$ENV{'TEXMFHOME'} = 'build/texmf-home';
+my $home = $ENV{'HOME'} // '';
+$ENV{'OSFONTDIR'} = "$home/Library/Fonts//:/System/Library/Fonts//:/Library/Fonts//:/System/Library/AssetsV2//";
+$lualatex = 'lualatex -interaction=nonstopmode -halt-on-error -file-line-error %O %S';
+$out_dir = 'build';
+$aux_dir = 'build';

@@ -1,0 +1,148 @@
+\documentclass[paper=b5j,fontsize=10pt]{jlreq}
+
+\usepackage[
+  paperwidth=182mm,
+  paperheight=257mm,
+  top=20mm,
+  bottom=20mm,
+  left=20mm,
+  right=20mm,
+  headheight=0pt,
+  headsep=12.7mm,
+  footskip=12.7mm
+]{geometry}
+\usepackage{luatexja-fontspec}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{qrcode}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tocloft}
+% 目次の行間を詰め、表紙ページの余白を本文に回す。
+\setlength{\cftbeforesecskip}{0.35\baselineskip}
+\setlength{\cftbeforesubsecskip}{0.05\baselineskip}
+\usepackage{codexcode}
+% 短いコード枠がページ境界で切れて閉じ罫線だけ孤立するのを防ぐために使う。
+\usepackage{needspace}
+
+% 記事内ページ番号。合冊時の全体ノンブル（通常フッター中央）と取り違えないよう、
+% 右下隅に「terudoru n / 総ページ」の形式で小さく入れる。目次はこの番号を参照する。
+\usepackage{lastpage}
+\NewPageStyle{terudoru}{
+  nombre_position=bottom-right,
+  nombre={\scriptsize\textsf{terudoru}\quad\thepage\,/\,\pageref{LastPage}}
+}
+\pagestyle{terudoru}
+\setmainjfont[AutoFakeBold=2]{MS Mincho}
+\setsansjfont[AutoFakeBold=2]{MS Gothic}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\graphicspath{{./}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=black,
+  citecolor=black,
+  pdfborder={0 0 0}
+}
+\raggedbottom
+% キャプション本文は明朝の小さめにして、太字ゴシックの圧を避ける。ラベルだけ強調を残す。
+\jlreqsetup{
+  caption_font=\normalfont\small,
+  caption_label_font=\small\sffamily\bfseries
+}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0.18\baselineskip}
+\setlist[itemize]{leftmargin=2em,itemsep=0.12\baselineskip,topsep=0.25\baselineskip}
+\setlist[enumerate]{leftmargin=2.6em,itemsep=0.12\baselineskip,topsep=0.25\baselineskip}
+\setlist[description]{style=nextline,leftmargin=0pt,labelindent=0pt,itemsep=0.35\baselineskip,topsep=0.25\baselineskip}
+\newcounter{none}
+
+% thebibliography自身の見出しを本文の章題として使い、見出しの二重表示を避ける。
+\renewcommand{\refname}{参考にしたサイト}
+
+\title{Proxmoxやりましょう}
+\author{terudoru}
+\date{}
+
+\newcommand{\siteqrcode}[2]{%
+  \par\noindent
+  \begin{minipage}{\linewidth}
+    \begin{minipage}{0.80\linewidth}
+      \small\textsf{\textbf{#1}}\\[-0.1\baselineskip]
+      \url{#2}
+    \end{minipage}\hfill
+    \begin{minipage}{0.13\linewidth}
+      \raggedleft\qrcode[height=11mm]{#2}
+    \end{minipage}
+  \end{minipage}
+  \par\vspace{0.12\baselineskip}
+}
+
+% itemize内で使うQR付き項目。太字名と説明文の下にURLを添え、右にQRを置く。
+% #1: 名前、#2: URL、#3: 説明文
+\newcommand{\qritem}[3]{%
+  \item
+  \begin{minipage}[t]{0.82\linewidth}
+    \textsf{\textbf{#1}}：#3\\[0.1\baselineskip]
+    {\footnotesize\url{#2}}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.13\linewidth}
+    \raggedleft\qrcode[height=11mm]{#2}
+  \end{minipage}
+}
+
+\newcommand{\biburlqr}[1]{%
+  \par\noindent
+  \begin{minipage}{0.85\linewidth}
+    {\scriptsize\url{#1}}
+  \end{minipage}\hfill
+  \begin{minipage}{0.10\linewidth}
+    \raggedleft\qrcode[height=10mm]{#1}
+  \end{minipage}
+  \par\vspace{0.03\baselineskip}
+}
+
+% 図は手順との対応を保つため[H]固定。かわりに手順説明はキャプションへ統合し、
+% 図の幅と間隔を抑えて1ページに複数枚収まるようにして余白を防ぐ。
+\newcommand{\installfigure}[4][0.60\linewidth]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#1]{#2}
+    \caption{#3}
+    \label{#4}
+  \end{figure}
+}
+% 図を左右2枚組で並べる版。縦積みを抑えてページ数を減らすために使う。
+% #1: 各画像の幅（省略時はminipage幅いっぱい）、続けて（画像,キャプション,ラベル）を2組。
+\newcommand{\installfigrow}[7][\linewidth]{%
+  \begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+      \includegraphics[width=#1]{#2}
+      \caption{#3}\label{#4}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+      \includegraphics[width=#1]{#5}
+      \caption{#6}\label{#7}
+    \end{minipage}
+  \end{figure}
+}
+\setlength{\intextsep}{0.7\baselineskip plus 2pt minus 2pt}
+
+\newcommand{\termmark}[1]{#1\textsuperscript{※}}
+\newcommand{\termdefs}[1]{%
+  \par\vspace{0.05\baselineskip}
+  \noindent{\scriptsize #1\par}
+  \vspace{0.05\baselineskip}
+}
+
+\begin{document}
+
+\input{body.raw.tex}
+
+\end{document}
